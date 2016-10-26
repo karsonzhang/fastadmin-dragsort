@@ -121,7 +121,8 @@
 						list.draggedItem.children().each(function() { $(this).width($(this).width()); });
 						list.placeHolderItem = list.draggedItem.clone().attr("data-placeholder", true);
 						list.draggedItem.after(list.placeHolderItem);
-						list.placeHolderItem.children().each(function() { $(this).css({ borderWidth:0, width: $(this).width() + 1, height: $(this).height() + 1 }).html("&nbsp;"); });
+						//list.placeHolderItem.children().each(function() { $(this).css({ borderWidth:0, width: $(this).width() + 1, height: $(this).height() + 1 }).html("&nbsp;"); });
+						list.placeHolderItem.children().each(function() { $(this).html("&nbsp;"); });
 					} else {
 						list.draggedItem.after(opts.placeHolderTemplate);
 						list.placeHolderItem = list.draggedItem.next().css({ height: h, width: w }).attr("data-placeholder", true);
