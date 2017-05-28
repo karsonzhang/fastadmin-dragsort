@@ -31,7 +31,7 @@
 
 				init: function() {
 					//set options to default values if not set
-					opts.tagName = $(this.container).children().size() == 0 ? "li" : $(this.container).children().get(0).tagName.toLowerCase();
+					opts.tagName = opts.tagName == "" ? ($(this.container).children().size() == 0 ? "li" : $(this.container).children().get(0).tagName.toLowerCase()) : opts.tagName;
 					if (opts.itemSelector == "")
 						opts.itemSelector = opts.tagName;
 					if (opts.dragSelector == "")
@@ -367,6 +367,7 @@
 	};
 
 	$.fn.dragsort.defaults = {
+                tagName:"",
 		itemSelector: "",
 		dragSelector: "",
 		dragSelectorExclude: "input, textarea",
