@@ -17,7 +17,7 @@
 		this.each(function(i, cont) {
 
 			//if list container is table, the browser automatically wraps rows in tbody if not specified so change list container to tbody so that children returns rows as user expected
-			if ($(cont).is("table") && $(cont).children().size() == 1 && $(cont).children().is("tbody"))
+			if ($(cont).is("table") && $(cont).children().length == 1 && $(cont).children().is("tbody"))
 				cont = $(cont).children().get(0);
 
 			var newList = {
@@ -31,7 +31,7 @@
 
 				init: function() {
 					//set options to default values if not set
-					opts.tagName = opts.tagName == "" ? ($(this.container).children().size() == 0 ? "li" : $(this.container).children().get(0).tagName.toLowerCase()) : opts.tagName;
+					opts.tagName = opts.tagName == "" ? ($(this.container).children().length == 0 ? "li" : $(this.container).children().get(0).tagName.toLowerCase()) : opts.tagName;
 					if (opts.itemSelector == "")
 						opts.itemSelector = opts.tagName;
 					if (opts.dragSelector == "")
@@ -61,10 +61,10 @@
 				grabItem: function(e) {
 					var list = lists[$(this).attr("data-listidx")];
 					var item = $(e.target).closest("[data-listidx] > " + opts.tagName).get(0);
-					var insideMoveableItem = list.getItems().filter(function() { return this == item; }).size() > 0;
+					var insideMoveableItem = list.getItems().filter(function() { return this == item; }).length > 0;
 
 					//if not left click or if clicked on excluded element (e.g. text box) or not a moveable list item return
-					if (e.which != 1 || $(e.target).is(opts.dragSelectorExclude) || $(e.target).closest(opts.dragSelectorExclude).size() > 0 || !insideMoveableItem)
+					if (e.which != 1 || $(e.target).is(opts.dragSelectorExclude) || $(e.target).closest(opts.dragSelectorExclude).length > 0 || !insideMoveableItem)
 						return;
 
 					//prevents selection, stops issue on Fx where dragging hyperlink doesn't work and on IE where it triggers mousemove even though mouse hasn't moved,
@@ -108,7 +108,7 @@
 
 					//calculate box the dragged item can't be dragged outside of
 					if (!opts.dragBetween) {
-						var containerHeight = $(list.container).outerHeight() == 0 ? Math.max(1, Math.round(0.5 + list.getItems().size() * list.draggedItem.outerWidth() / $(list.container).outerWidth())) * list.draggedItem.outerHeight() : $(list.container).outerHeight();
+						var containerHeight = $(list.container).outerHeight() == 0 ? Math.max(1, Math.round(0.5 + list.getItems().length * list.draggedItem.outerWidth() / $(list.container).outerWidth())) * list.draggedItem.outerHeight() : $(list.container).outerHeight();
 						list.offsetLimit = $(list.container).offset();
 						list.offsetLimit.right = list.offsetLimit.left + $(list.container).outerWidth() - list.draggedItem.outerWidth();
 						list.offsetLimit.bottom = list.offsetLimit.top + containerHeight - list.draggedItem.outerHeight();
@@ -173,7 +173,7 @@
 				},
 
 				//set position of draggedItem
-				setPos: function(x, y) { 
+				setPos: function(x, y) {
 					//remove mouse offset so mouse cursor remains in same place on draggedItem instead of top left corner
 					var top = y - this.offset.top;
 					var left = x - this.offset.left;
@@ -203,7 +203,7 @@
 						y = Math.max(0, y - cont.height() - offset.top) + Math.min(0, y - offset.top);
 						x = Math.max(0, x - cont.width() - offset.left) + Math.min(0, x - offset.left);
 					}
-					
+
 					list.scroll.moveX = x == 0 ? 0 : x * opts.scrollSpeed / Math.abs(x);
 					list.scroll.moveY = y == 0 ? 0 : y * opts.scrollSpeed / Math.abs(y);
 
@@ -265,7 +265,7 @@
 						if (opts.dragEnd.apply(list.draggedItem) == false) { //if dragEnd returns false revert order
 							var pos = list.draggedItem.attr("data-origpos").split('-');
 							var nextItem = $(lists[pos[0]].container).children().not(list.draggedItem).eq(pos[1]);
-							if (nextItem.size() > 0)
+							if (nextItem.length > 0)
 								nextItem.before(list.draggedItem);
 							else if (pos[1] == 0) //was the only item in list
 								$(lists[pos[0]].container).prepend(list.draggedItem);
@@ -344,15 +344,15 @@
 					$(lists).each(function() {
 						var ph = $(this.container).find("[data-placeholder]");
 						var dt = $(this.container).find("[data-droptarget]");
-						if (ph.size() > 0 && dt.size() > 0)
+						if (ph.length > 0 && dt.length > 0)
 							dt.remove();
-						else if (ph.size() == 0 && dt.size() == 0) {
+						else if (ph.length == 0 && dt.length == 0) {
 							if (opts.tagName == "td")
 								$(opts.placeHolderTemplate).attr("data-droptarget", true).appendTo(this.container);
 							else
 								//list.placeHolderItem.clone().removeAttr("data-placeholder") crashes in IE7 and jquery 1.5.1 (doesn't in jquery 1.4.2 or IE8)
 								$(this.container).append(list.placeHolderItem.removeAttr("data-placeholder").clone().attr("data-droptarget", true));
-							
+
 							list.placeHolderItem.attr("data-placeholder", true);
 						}
 					});
