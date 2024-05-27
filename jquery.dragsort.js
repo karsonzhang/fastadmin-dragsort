@@ -1,4 +1,4 @@
-// jQuery List DragSort v0.5.2
+// jQuery List DragSort v0.5.3
 // Website: http://dragsort.codeplex.com/
 // License: http://dragsort.codeplex.com/license
 
@@ -69,7 +69,7 @@
 
 					//prevents selection, stops issue on Fx where dragging hyperlink doesn't work and on IE where it triggers mousemove even though mouse hasn't moved,
 					//does also stop being able to click text boxes hence dragging on text boxes by default is disabled in dragSelectorExclude
-					//e.preventDefault();
+					e.preventDefault();
 
 					//change cursor to move while dragging
 					var dragHandle = e.target;
